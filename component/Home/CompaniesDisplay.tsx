@@ -91,10 +91,10 @@ export default function CompaniesDisplay() {
             <CardContent className="text-start">
               <p className="text-md font-bold">{service.description}</p>
               <p className="text-sm text-gray-500">
-                Complete in{' '}
+                Complete in
                 <span className="font-semibold text-black">
                   {service.completionTime}
-                </span>{' '}
+                </span>
                 working days
               </p>
 
