@@ -43,7 +43,7 @@ export const services = [
   },
   {
     logo: 'img-3.jpg',
-    name: 'ProBiz Solutions',
+    name: 'PRIVATE LIMITED (SDN BHD)',
     rating: 4.5,
     type: 'Consulting & Incorporation',
     description: 'Affordable incorporation with additional consultation',
@@ -65,14 +65,14 @@ export const services = [
     logo: 'img-2.jpg',
     name: 'Elite Secretarial Solutions',
     rating: 4.7,
-    type: 'Premium Secretarial Services',
+    type: '  PRIVATE LIMITED (SDN BHD)',
     description: 'Expert secretarial services with 20+ years of experience',
     completionTime: '5-7',
     price: 'RM 1,800',
     clients: '3,500 clients',
   },
   {
-    logo: 'img-4.jpg',
+    logo: 'img-5.jpg',
     name: 'The Legal Group',
     rating: 3.8,
     type: 'Business Solutions',
@@ -85,7 +85,10 @@ export const services = [
 
 export const companyTypes = [
   'PRIVATE LIMITED (SDN BHD)',
-  'PUBLIC LIMITED',
-  'SOLE PROPRIETORSHIP',
+  'Business Solutions',
+  'Fast Track Incorporation',
+  'Consulting & Incorporation',
+  'Secretarial Services',
+  'Company Incorporation',
 ];
-export const regions = ['Peninsular Malaysia (Mainland)', 'Sabah', 'Sarawak'];
+export const regions = ['Peninsular Malaysia', 'Sabah', 'Sarawak'];

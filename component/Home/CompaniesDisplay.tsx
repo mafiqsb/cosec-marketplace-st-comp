@@ -1,5 +1,8 @@
+'use client';
+
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { services } from '@/app/data/Data';
+import { services as allServices } from '@/app/data/Data';
 import {
   Card,
   CardContent,
@@ -18,6 +21,95 @@ import { Star } from 'lucide-react';
 import { IoFilterSharp } from 'react-icons/io5';
 
 export default function CompaniesDisplay() {
+  const [services, setServices] = useState(allServices);
+  const [sortBy, setSortBy] = useState('');
+  const [filterBy, setFilterBy] = useState('');
+
+  const handleSortChange = (value: string) => {
+    setSortBy(value);
+    let sortedServices = [...services];
+    switch (value) {
+      case 'ratings':
+        sortedServices.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'priceLowToHigh':
+        sortedServices.sort(
+          (a, b) =>
+            parseFloat(a.price.replace('RM', '').replace(',', '')) -
+            parseFloat(b.price.replace('RM', '').replace(',', ''))
+        );
+        break;
+      case 'priceHighToLow':
+        sortedServices.sort(
+          (a, b) =>
+            parseFloat(b.price.replace('RM', '').replace(',', '')) -
+            parseFloat(a.price.replace('RM', '').replace(',', ''))
+        );
+        break;
+      case 'completionTimeFastest':
+        sortedServices.sort(
+          (a, b) =>
+            parseInt(a.completionTime.split('-')[0]) -
+            parseInt(b.completionTime.split('-')[0])
+        );
+        break;
+      case 'completionTimeSlowest':
+        sortedServices.sort(
+          (a, b) =>
+            parseInt(b.completionTime.split('-')[0]) -
+            parseInt(a.completionTime.split('-')[0])
+        );
+        break;
+      case 'mostClients':
+        sortedServices.sort(
+          (a, b) =>
+            parseInt(b.clients.replace(',', '')) -
+            parseInt(a.clients.replace(',', ''))
+        );
+        break;
+      case 'nameAZ':
+        sortedServices.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'nameZA':
+        sortedServices.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+      default:
+        break;
+    }
+    setServices(sortedServices);
+  };
+
+  const handleFilterChange = (value: string) => {
+    setFilterBy(value);
+    let filteredServices = [...allServices];
+    switch (value) {
+      case 'types':
+        filteredServices = allServices.filter((service) =>
+          service.type.includes('Incorporation')
+        );
+        break;
+      case 'priceRange':
+        filteredServices = allServices.filter(
+          (service) =>
+            parseFloat(service.price.replace('RM', '').replace(',', '')) < 2000
+        );
+        break;
+      case 'rating':
+        filteredServices = allServices.filter(
+          (service) => service.rating >= 4.0
+        );
+        break;
+      case 'deliveryTime':
+        filteredServices = allServices.filter(
+          (service) => parseInt(service.completionTime.split('-')[0]) <= 5
+        );
+        break;
+      default:
+        break;
+    }
+    setServices(filteredServices);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
@@ -28,11 +120,14 @@ export default function CompaniesDisplay() {
           </p>
         </h1>
         <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-          <Select>
-            <SelectTrigger className="border rounded px-2 py-1">
-              <SelectValue placeholder="Sort by: Ratings" />
+          <Select value={sortBy} onValueChange={handleSortChange}>
+            <SelectTrigger className="px-2 py-1 font-bold text-black focus:outline-none focus:ring-0 border-none shadow-none">
+              <SelectValue
+                placeholder="Sort by: Ratings"
+                className="text-black font-bold"
+              />
             </SelectTrigger>
-            <SelectContent className="bg-white border border-gray-200 shadow-md rounded-md">
+            <SelectContent className="bg-white shadow-md rounded-md text-black">
               <SelectItem value="ratings">Sort by: Ratings</SelectItem>
               <SelectItem value="priceLowToHigh">
                 Sort by: Price (Low to High)
@@ -51,14 +146,22 @@ export default function CompaniesDisplay() {
               <SelectItem value="nameZA">Sort by: Name (Z-A)</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="ghost" className="font-semibold">
-            Filter
-            <IoFilterSharp />
-          </Button>
+
+          <Select value={filterBy} onValueChange={handleFilterChange}>
+            <SelectTrigger className="inline-flex items-center gap-2 font-semibold text-black px-3 py-2 rounded-md bg-transparent border-none shadow-none hover:bg-gray-100 transition appearance-none">
+              <SelectValue placeholder="Filter" />
+              <IoFilterSharp className="text-lg" />
+            </SelectTrigger>
+            <SelectContent className="bg-white shadow-md rounded-md text-black">
+              <SelectItem value="types">Types</SelectItem>
+              <SelectItem value="priceRange">Price Range</SelectItem>
+              <SelectItem value="rating">Rating</SelectItem>
+              <SelectItem value="deliveryTime">Delivery Time</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
-      {/* Grid of Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {services.map((service, index) => (
           <Card
@@ -78,7 +181,7 @@ export default function CompaniesDisplay() {
                   </CardTitle>
 
                   <div className="flex items-center">
-                    <span className="mr-2 text-sm font-bold">
+                    <span className="mr-2 text-sm text-[#1e3a8a] font-bold">
                       {service.rating}
                     </span>
                     <Star className="w-5 h-5 text-[#1e3a8a] fill-current" />
@@ -91,10 +194,10 @@ export default function CompaniesDisplay() {
             <CardContent className="text-start">
               <p className="text-md font-bold">{service.description}</p>
               <p className="text-sm text-gray-500">
-                Complete in
+                Complete in {''}
                 <span className="font-semibold text-black">
                   {service.completionTime}
-                </span>
+                </span>{' '}
                 working days
               </p>
 

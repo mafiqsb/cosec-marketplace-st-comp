@@ -24,7 +24,7 @@ interface SearchFilters {
 export default function SearchComponent() {
   const [filters, setFilters] = useState<SearchFilters>({
     companyType: 'PRIVATE LIMITED (SDN BHD)',
-    region: 'Peninsular Malaysia (Mainland)',
+    region: 'Peninsular Malaysia',
     dateOfCompletion: '',
   });
 
@@ -146,7 +146,7 @@ export default function SearchComponent() {
           <div className="flex w-full justify-center xl:justify-end items-center">
             <button
               type="submit"
-              className="w-full md:w-auto bg-[#1e3a8a] text-white rounded-2xl xl:rounded-full px-6 py-4 xl:px-10 xl:py-6 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full md:w-auto bg-[#1e3a8a] text-white rounded-2xl xl:rounded-full px-6 py-4 xl:px-10 xl:py-6 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:cursor-pointer"
             >
               <PiMagnifyingGlass className="text-lg" />
               Search
