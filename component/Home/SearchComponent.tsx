@@ -71,7 +71,7 @@ export default function SearchComponent({
         onSubmit={handleSubmit}
         className="w-full md:w-[95%] xl:w-[58%] bg-white rounded-2xl md:rounded-full border shadow-lg xl:pl-18 p-4 xl:p-0 xl:pr-2 xl:pt-2 xl:pb-2 flex flex-col"
       >
-        <div className="flex flex-col md:flex-row gap-4 md:items-end relative w-full">
+        <div className="flex flex-col md:flex-row md:ml-2 lg:ml-4 xl:ml-0 gap-4 md:items-end relative w-full">
           {/* Company Type */}
           <div className="flex flex-col items-start w-full">
             <label className="font-medium md:text-sm xl:text-base">
@@ -136,7 +136,7 @@ export default function SearchComponent({
               onChange={handleChange}
               onFocus={() => setShowCalendar(true)}
               placeholder="17th Feb (3 Days)"
-              className="bg-transparent max-w-xs shadow-none border-none ring-0 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+              className="bg-transparent max-w-xs shadow-none border-none rounded-md"
             />
             {showCalendar && (
               <div className="absolute top-full z-10 mt-2 bg-white border rounded-md shadow-md">
@@ -153,7 +153,7 @@ export default function SearchComponent({
           <div className="flex w-full justify-center xl:justify-end items-center">
             <button
               type="submit"
-              className="w-full md:w-auto bg-[#1e3a8a] text-white rounded-2xl md:rounded-full px-6 py-4 xl:px-10 xl:py-6 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:cursor-pointer"
+              className="w-full md:w-auto bg-[#1e3a8a] text-white rounded-2xl md:rounded-full px-6 py-5 lg:px-8 xl:px-10 xl:py-6 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:cursor-pointer"
             >
               <PiMagnifyingGlass className="text-lg" />
               Search

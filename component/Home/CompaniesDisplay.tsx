@@ -232,7 +232,7 @@ export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
 
                 <CardFooter className="flex justify-between space-x-2 mt-auto mb-4 w-full px-6">
                   <Button
-                    className="md:text-xs xl:text-sm px-4 py-2 xl:px-6 xl:py-6 bg-[#2a2b2c] rounded-full w-[50%] hover:bg-[#393a3b] transition"
+                    className="md:text-xs xl:text-sm px-4 py-2 xl:px-6 xl:py-6 bg-[#2a2b2c] rounded-full w-[50%] hover:bg-[#393a3b] transition cursor-pointer"
                     onClick={() => {
                       setCurrentCompany(service.name);
                       setShowChat(true);
@@ -241,7 +241,7 @@ export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
                     Message
                   </Button>
                   <Button
-                    className="md:text-xs xl:text-sm px-4 py-2  bg-[#1e3a8a] xl:px-6 xl:py-6 rounded-full w-[50%] hover:bg-[#002255] transition"
+                    className="md:text-xs xl:text-sm px-4 py-2  bg-[#1e3a8a] xl:px-6 xl:py-6 rounded-full w-[50%] hover:bg-[#002255] transition cursor-pointer"
                     onClick={() => setShowCard(true)}
                   >
                     Incorporate
