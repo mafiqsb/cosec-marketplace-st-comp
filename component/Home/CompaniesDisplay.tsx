@@ -20,139 +20,150 @@ import {
 import { Star } from 'lucide-react';
 import { IoFilterSharp } from 'react-icons/io5';
 
-export default function CompaniesDisplay() {
-  const [services, setServices] = useState(allServices);
+interface CompaniesDisplayProps {
+  services: {
+    logo: string;
+    name: string;
+    rating: number;
+    type: string;
+    description: string;
+    completionTime: string;
+    price: string;
+    clients: string;
+    region: string;
+    dateOfCompletion: string;
+  }[];
+}
+
+export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
+  const [displayedServices, setDisplayedServices] = useState(allServices);
   const [sortBy, setSortBy] = useState('');
   const [filterBy, setFilterBy] = useState('');
 
+  const parsePrice = (price: string) =>
+    parseFloat(price.replace('RM', '').replace(',', ''));
+
+  const parseClients = (clients: string) => parseInt(clients.replace(',', ''));
+
+  const parseDays = (completionTime: string) =>
+    parseInt(completionTime.split('-')[0]);
+
   const handleSortChange = (value: string) => {
     setSortBy(value);
-    let sortedServices = [...services];
+    let sorted = [...displayedServices];
+
     switch (value) {
       case 'ratings':
-        sortedServices.sort((a, b) => b.rating - a.rating);
+        sorted.sort((a, b) => b.rating - a.rating);
         break;
       case 'priceLowToHigh':
-        sortedServices.sort(
-          (a, b) =>
-            parseFloat(a.price.replace('RM', '').replace(',', '')) -
-            parseFloat(b.price.replace('RM', '').replace(',', ''))
-        );
+        sorted.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
         break;
       case 'priceHighToLow':
-        sortedServices.sort(
-          (a, b) =>
-            parseFloat(b.price.replace('RM', '').replace(',', '')) -
-            parseFloat(a.price.replace('RM', '').replace(',', ''))
-        );
+        sorted.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
         break;
       case 'completionTimeFastest':
-        sortedServices.sort(
-          (a, b) =>
-            parseInt(a.completionTime.split('-')[0]) -
-            parseInt(b.completionTime.split('-')[0])
+        sorted.sort(
+          (a, b) => parseDays(a.completionTime) - parseDays(b.completionTime)
         );
         break;
       case 'completionTimeSlowest':
-        sortedServices.sort(
-          (a, b) =>
-            parseInt(b.completionTime.split('-')[0]) -
-            parseInt(a.completionTime.split('-')[0])
+        sorted.sort(
+          (a, b) => parseDays(b.completionTime) - parseDays(a.completionTime)
         );
         break;
       case 'mostClients':
-        sortedServices.sort(
-          (a, b) =>
-            parseInt(b.clients.replace(',', '')) -
-            parseInt(a.clients.replace(',', ''))
+        sorted.sort(
+          (a, b) => parseClients(b.clients) - parseClients(a.clients)
         );
         break;
       case 'nameAZ':
-        sortedServices.sort((a, b) => a.name.localeCompare(b.name));
+        sorted.sort((a, b) => a.name.localeCompare(b.name));
         break;
       case 'nameZA':
-        sortedServices.sort((a, b) => b.name.localeCompare(a.name));
+        sorted.sort((a, b) => b.name.localeCompare(a.name));
         break;
       default:
         break;
     }
-    setServices(sortedServices);
+
+    setDisplayedServices(sorted);
   };
 
   const handleFilterChange = (value: string) => {
     setFilterBy(value);
-    let filteredServices = [...allServices];
+    let filtered = [...allServices];
+
     switch (value) {
       case 'types':
-        filteredServices = allServices.filter((service) =>
+        filtered = filtered.filter((service) =>
           service.type.includes('Incorporation')
         );
         break;
       case 'priceRange':
-        filteredServices = allServices.filter(
-          (service) =>
-            parseFloat(service.price.replace('RM', '').replace(',', '')) < 2000
+        filtered = filtered.filter(
+          (service) => parsePrice(service.price) < 2000
         );
         break;
       case 'rating':
-        filteredServices = allServices.filter(
-          (service) => service.rating >= 4.0
-        );
+        filtered = filtered.filter((service) => service.rating >= 4.0);
         break;
       case 'deliveryTime':
-        filteredServices = allServices.filter(
-          (service) => parseInt(service.completionTime.split('-')[0]) <= 5
+        filtered = filtered.filter(
+          (service) => parseDays(service.completionTime) <= 5
         );
         break;
       default:
         break;
     }
-    setServices(filteredServices);
+
+    setDisplayedServices(filtered);
+    setSortBy('');
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
-        <h1 className="text-xl md:text-2xl xl:text-4xl font-bold leading-snug">
-          Incorporate new company <br className="hidden md:block" />
-          <p className="font-normal text-sm">
+        <div>
+          <h1 className="text-2xl md:text-3xl xl:text-4xl font-bold leading-snug">
+            Incorporate new company
+          </h1>
+          <p className="font-normal text-sm text-gray-600">
             OVER 350 Secretaries ready to assist you!
           </p>
-        </h1>
+        </div>
+
         <div className="flex flex-col sm:flex-row sm:items-center gap-2">
           <Select value={sortBy} onValueChange={handleSortChange}>
-            <SelectTrigger className="px-2 py-1 font-bold text-black focus:outline-none focus:ring-0 border-none shadow-none">
-              <SelectValue
-                placeholder="Sort by: Ratings"
-                className="text-black font-bold"
-              />
+            <SelectTrigger className="px-2 py-1 font-bold text-black border-none shadow-none">
+              <SelectValue placeholder="Sort by: Ratings" />
             </SelectTrigger>
-            <SelectContent className="bg-white shadow-md rounded-md text-black">
-              <SelectItem value="ratings">Sort by: Ratings</SelectItem>
+            <SelectContent>
+              <SelectItem value="ratings">Ratings</SelectItem>
               <SelectItem value="priceLowToHigh">
-                Sort by: Price (Low to High)
+                Price (Low to High)
               </SelectItem>
               <SelectItem value="priceHighToLow">
-                Sort by: Price (High to Low)
+                Price (High to Low)
               </SelectItem>
               <SelectItem value="completionTimeFastest">
-                Sort by: Completion Time (Fastest)
+                Fastest Completion
               </SelectItem>
               <SelectItem value="completionTimeSlowest">
-                Sort by: Completion Time (Slowest)
+                Slowest Completion
               </SelectItem>
-              <SelectItem value="mostClients">Sort by: Most Clients</SelectItem>
-              <SelectItem value="nameAZ">Sort by: Name (A-Z)</SelectItem>
-              <SelectItem value="nameZA">Sort by: Name (Z-A)</SelectItem>
+              <SelectItem value="mostClients">Most Clients</SelectItem>
+              <SelectItem value="nameAZ">Name (A-Z)</SelectItem>
+              <SelectItem value="nameZA">Name (Z-A)</SelectItem>
             </SelectContent>
           </Select>
 
           <Select value={filterBy} onValueChange={handleFilterChange}>
-            <SelectTrigger className="inline-flex items-center gap-2 font-semibold text-black px-3 py-2 rounded-md bg-transparent border-none shadow-none hover:bg-gray-100 transition appearance-none">
+            <SelectTrigger className="inline-flex items-center gap-2 font-semibold text-black px-3 py-2 rounded-md hover:bg-gray-100 border-none shadow-none">
               <SelectValue placeholder="Filter" />
               <IoFilterSharp className="text-lg" />
             </SelectTrigger>
-            <SelectContent className="bg-white shadow-md rounded-md text-black">
+            <SelectContent>
               <SelectItem value="types">Types</SelectItem>
               <SelectItem value="priceRange">Price Range</SelectItem>
               <SelectItem value="rating">Rating</SelectItem>
@@ -162,65 +173,74 @@ export default function CompaniesDisplay() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {services.map((service, index) => (
-          <Card
-            key={index}
-            className="flex flex-col h-full p-0 rounded-4xl overflow-hidden"
-          >
-            <img
-              src={service.logo}
-              alt={service.name}
-              className="w-full object-cover rounded-t-lg"
-            />
-            <CardHeader>
-              <div className="flex flex-col gap-1 m-0">
-                <div className="flex justify-between items-center">
-                  <CardTitle className="text-start text-base md:text-lg">
-                    {service.name}
-                  </CardTitle>
+      {displayedServices.length === 0 ? (
+        <div className="text-center text-gray-500">
+          No services match your criteria.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {displayedServices.map((service, index) => (
+            <Card
+              key={index}
+              className="flex flex-col h-full p-0 rounded-4xl overflow-hidden"
+            >
+              <img
+                src={service.logo}
+                alt={service.name || 'Company Logo'}
+                className="w-full object-cover rounded-t-lg"
+              />
 
-                  <div className="flex items-center">
-                    <span className="mr-2 text-sm text-[#1e3a8a] font-bold">
-                      {service.rating}
-                    </span>
-                    <Star className="w-5 h-5 text-[#1e3a8a] fill-current" />
+              <div className="flex flex-col flex-grow justify-between">
+                <CardHeader>
+                  <div className="flex flex-col gap-1 mb-6">
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-start text-base md:text-lg">
+                        {service.name}
+                      </CardTitle>
+                      <div className="flex items-center">
+                        <span className="mr-2 text-sm text-[#1e3a8a] font-bold">
+                          {service.rating}
+                        </span>
+                        <Star className="w-5 h-5 text-[#1e3a8a] fill-current" />
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-600">{service.type}</p>
                   </div>
+                </CardHeader>
+
+                <CardContent className="text-start flex-grow">
+                  <p className="text-md font-bold mb-6">
+                    {service.description}
+                  </p>
+                  <p className="text-sm text-gray-500 mt-2">
+                    Complete in{' '}
+                    <span className="font-semibold text-black">
+                      {service.completionTime}
+                    </span>{' '}
+                    working days
+                  </p>
+                </CardContent>
+
+                <div className="flex justify-between items-center px-6 mt-auto mb-4">
+                  <p className="text-lg xl:text-2xl font-bold">
+                    {service.price}
+                  </p>
+                  <p className="text-sm text-gray-500">({service.clients})</p>
                 </div>
 
-                <p className="text-sm m-0 leading-none">{service.type}</p>
+                <CardFooter className="flex justify-between space-x-2 mt-4 mb-4 w-full px-6">
+                  <Button className="text-sm px-4 py-2 bg-[#2a2b2c] rounded-full w-[50%]">
+                    Message
+                  </Button>
+                  <Button className="text-sm px-4 py-2 bg-[#1e3a8a] rounded-full w-[50%]">
+                    Incorporate
+                  </Button>
+                </CardFooter>
               </div>
-            </CardHeader>
-            <CardContent className="text-start">
-              <p className="text-md font-bold">{service.description}</p>
-              <p className="text-sm text-gray-500">
-                Complete in {''}
-                <span className="font-semibold text-black">
-                  {service.completionTime}
-                </span>{' '}
-                working days
-              </p>
-
-              <div className="flex justify-between items-center mt-4">
-                <p className="text-lg xl:text-2xl font-bold mt-2">
-                  {service.price}
-                </p>
-                <p className="text-xxs md:text-sm text-gray-500">
-                  ({service.clients})
-                </p>
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-center space-x-2 mb-4">
-              <Button className="text-sm px-4 py-2 bg-[#2a2b2c]">
-                Message
-              </Button>
-              <Button className="text-sm px-4 py-2 bg-[#1e3a8a]">
-                Incorporate
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

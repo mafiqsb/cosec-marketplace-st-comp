@@ -9,6 +9,8 @@ export const services = [
     completionTime: '2-3',
     price: 'RM 1,600',
     clients: '4,843 clients',
+    region: 'Kuala Lumpur',
+    dateOfCompletion: '2023-08-10',
   },
   {
     logo: '/img-2.jpg',
@@ -19,6 +21,8 @@ export const services = [
     completionTime: '7-9',
     price: 'RM 1,499',
     clients: '1,777 clients',
+    region: 'Selangor',
+    dateOfCompletion: '2023-09-12',
   },
   {
     logo: 'img-3.jpg',
@@ -30,6 +34,8 @@ export const services = [
     completionTime: '2-3',
     price: 'RM 1,250',
     clients: '3,230 clients',
+    region: 'Penang',
+    dateOfCompletion: '2023-10-01',
   },
   {
     logo: 'img-4.jpg',
@@ -40,6 +46,8 @@ export const services = [
     completionTime: '12-14',
     price: 'RM 2,200',
     clients: '467 clients',
+    region: 'Johor',
+    dateOfCompletion: '2023-07-19',
   },
   {
     logo: 'img-3.jpg',
@@ -50,6 +58,8 @@ export const services = [
     completionTime: '3-5',
     price: 'RM 1,200',
     clients: '2,300 clients',
+    region: 'Melaka',
+    dateOfCompletion: '2023-06-21',
   },
   {
     logo: 'img-1.jpg',
@@ -60,16 +70,20 @@ export const services = [
     completionTime: '4-6',
     price: 'RM 1,350',
     clients: '2,100 clients',
+    region: 'Kedah',
+    dateOfCompletion: '2023-11-05',
   },
   {
     logo: 'img-2.jpg',
     name: 'Elite Secretarial Solutions',
     rating: 4.7,
-    type: '  PRIVATE LIMITED (SDN BHD)',
+    type: 'PRIVATE LIMITED (SDN BHD)',
     description: 'Expert secretarial services with 20+ years of experience',
     completionTime: '5-7',
     price: 'RM 1,800',
     clients: '3,500 clients',
+    region: 'Negeri Sembilan',
+    dateOfCompletion: '2023-08-30',
   },
   {
     logo: 'img-5.jpg',
@@ -80,6 +94,8 @@ export const services = [
     completionTime: '6-8',
     price: 'RM 1,650',
     clients: '2,900 clients',
+    region: 'Perak',
+    dateOfCompletion: '2023-10-14',
   },
 ];
 
