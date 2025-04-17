@@ -230,21 +230,15 @@ export default function Navbar() {
               </div>
             ))}
           </div>
-          <div className="mt-auto flex justify-center w-full mb-6">
-            <div className="flex items-center justify-center gap-4 w-full">
-              <div>
-                <FaRegBell />
-              </div>
-              <div>
-                <FaGear />
-              </div>
+          <div className="mt-auto flex justify-end w-full mb-6">
+            <div className="flex items-center justify-end gap-4 w-full mr-8">
               <div className="flex items-center gap-2">
+                <p className="font-light text-sm">Joachim Berthier</p>
                 <img
                   src="/profile.png"
                   alt="profile"
                   className="h-8 w-8 object-cover rounded-full"
                 />
-                <p className="font-light text-sm">Joachim Berthier</p>
               </div>
             </div>
           </div>

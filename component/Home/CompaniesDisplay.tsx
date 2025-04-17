@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { services as allServices } from '@/app/data/Data';
 import {
   Card,
   CardContent,
@@ -36,9 +35,10 @@ interface CompaniesDisplayProps {
 }
 
 export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
-  const [displayedServices, setDisplayedServices] = useState(allServices);
+  const [displayedServices, setDisplayedServices] = useState(services);
   const [sortBy, setSortBy] = useState('');
   const [filterBy, setFilterBy] = useState('');
+  const [showCard, setShowCard] = useState(false);
 
   const parsePrice = (price: string) =>
     parseFloat(price.replace('RM', '').replace(',', ''));
@@ -92,7 +92,7 @@ export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
 
   const handleFilterChange = (value: string) => {
     setFilterBy(value);
-    let filtered = [...allServices];
+    let filtered = [...services];
 
     switch (value) {
       case 'types':
@@ -133,7 +133,7 @@ export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+        <div className="flex flex-row items-center gap-2">
           <Select value={sortBy} onValueChange={handleSortChange}>
             <SelectTrigger className="px-2 py-1 font-bold text-black border-none shadow-none">
               <SelectValue placeholder="Sort by: Ratings" />
@@ -229,16 +229,66 @@ export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
                 </div>
 
                 <CardFooter className="flex justify-between space-x-2 mt-4 mb-4 w-full px-6">
-                  <Button className="text-sm px-4 py-2 bg-[#2a2b2c] rounded-full w-[50%]">
+                  <Button className="text-sm px-4 py-2 bg-[#2a2b2c] rounded-full w-[50%] cursor-pointer hover:bg-[#393a3b] transition duration-300 ease-in-out">
                     Message
                   </Button>
-                  <Button className="text-sm px-4 py-2 bg-[#1e3a8a] rounded-full w-[50%]">
+                  <Button
+                    className="text-sm px-4 py-2 bg-[#1e3a8a] rounded-full w-[50%] cursor-pointer hover:bg-[#002255] transition duration-300 ease-in-out"
+                    onClick={() => setShowCard(true)}
+                  >
                     Incorporate
                   </Button>
                 </CardFooter>
               </div>
             </Card>
           ))}
+        </div>
+      )}
+
+      {/* Card Popup */}
+      {showCard && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white text-black rounded-xl shadow-lg p-8 w-full max-w-md relative">
+            <button
+              onClick={() => setShowCard(false)}
+              className="absolute top-3 right-4 text-black text-xl font-bold cursor-pointer"
+            >
+              &times;
+            </button>
+
+            <h2 className="text-xl font-semibold mb-4">
+              Incorporate Your Company
+            </h2>
+            <form className="flex flex-col gap-4">
+              <input
+                type="text"
+                placeholder="Company Name"
+                className="border p-2 rounded"
+              />
+              <select className="border p-2 rounded">
+                <option value="">Business Type</option>
+                <option value="sdn-bhd">Sdn Bhd</option>
+                <option value="sole">Sole Proprietor</option>
+                <option value="partnership">Partnership</option>
+              </select>
+              <input
+                type="text"
+                placeholder="Director Name"
+                className="border p-2 rounded"
+              />
+              <input
+                type="text"
+                placeholder="Address"
+                className="border p-2 rounded"
+              />
+              <button
+                type="submit"
+                className="bg-[#003366] text-white py-2 rounded cursor-pointer hover:bg-[#002255] transition duration-300 ease-in-out"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>
