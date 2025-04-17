@@ -192,9 +192,9 @@ export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
                 className="w-full object-cover rounded-t-lg"
               />
 
-              <div className="flex flex-col flex-grow justify-between">
+              <div className="flex flex-col flex-1 justify-between">
                 <CardHeader>
-                  <div className="flex flex-col gap-1 mb-6">
+                  <div className="flex flex-col gap-1 mb-4">
                     <div className="flex justify-between items-center">
                       <CardTitle className="text-start text-base md:text-lg">
                         {service.name}
@@ -210,11 +210,11 @@ export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
                   </div>
                 </CardHeader>
 
-                <CardContent className="text-start flex-grow">
-                  <p className="text-md font-bold mb-6">
+                <CardContent className="text-start flex-1 flex flex-col justify-between">
+                  <p className="text-md font-bold mb-4 line-clamp-4">
                     {service.description}
                   </p>
-                  <p className="text-sm text-gray-500 mt-2">
+                  <p className="text-sm text-gray-500 mt-auto">
                     Complete in{' '}
                     <span className="font-semibold text-black">
                       {service.completionTime}
@@ -223,16 +223,16 @@ export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
                   </p>
                 </CardContent>
 
-                <div className="flex justify-between items-center px-6 mt-auto mb-4">
-                  <p className="text-lg xl:text-2xl font-bold">
+                <div className="flex justify-between items-center px-6 mt-2 mb-8">
+                  <p className="text-sm xl:text-2xl font-bold">
                     {service.price}
                   </p>
                   <p className="text-sm text-gray-500">({service.clients})</p>
                 </div>
 
-                <CardFooter className="flex justify-between space-x-2 mt-4 mb-4 w-full px-6">
+                <CardFooter className="flex justify-between space-x-2 mt-auto mb-4 w-full px-6">
                   <Button
-                    className="md:text-xs xl:text-sm px-4 py-2 bg-[#2a2b2c] rounded-full w-[50%] cursor-pointer hover:bg-[#393a3b] transition duration-300 ease-in-out"
+                    className="md:text-xs xl:text-sm px-4 py-2 xl:px-6 xl:py-6 bg-[#2a2b2c] rounded-full w-[50%] hover:bg-[#393a3b] transition"
                     onClick={() => {
                       setCurrentCompany(service.name);
                       setShowChat(true);
@@ -241,7 +241,7 @@ export default function CompaniesDisplay({ services }: CompaniesDisplayProps) {
                     Message
                   </Button>
                   <Button
-                    className="md:text-xs xl:text-sm px-4 py-2 bg-[#1e3a8a] rounded-full w-[50%] cursor-pointer hover:bg-[#002255] transition duration-300 ease-in-out"
+                    className="md:text-xs xl:text-sm px-4 py-2  bg-[#1e3a8a] xl:px-6 xl:py-6 rounded-full w-[50%] hover:bg-[#002255] transition"
                     onClick={() => setShowCard(true)}
                   >
                     Incorporate
